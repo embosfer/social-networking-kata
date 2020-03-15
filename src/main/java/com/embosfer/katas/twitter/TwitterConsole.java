@@ -1,5 +1,6 @@
 package com.embosfer.katas.twitter;
 
+import com.embosfer.katas.twitter.commands.Command;
 import com.embosfer.katas.twitter.commands.TwitterCommandProcessor;
 import com.embosfer.katas.twitter.in.UserInput;
 
@@ -14,7 +15,11 @@ public class TwitterConsole {
     }
 
     public void start() {
-        twitterCommandProcessor.process(userInput.nextInput());
+
+        Command command;
+        do {
+            command = twitterCommandProcessor.process(userInput.nextInput());
+        } while (!command.isQuitCommand());
     }
 
 }

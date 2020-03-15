@@ -12,9 +12,11 @@ public class TwitterCommandProcessor {
         this.messageOutputter = messageOutputter;
     }
 
-    public void process(String userInput) {
+    public Command process(String userInput) {
 
         Command command = commandFactory.newCommand(userInput);
         messageOutputter.printOut(command.asOutMessage());
+
+        return command;
     }
 }
