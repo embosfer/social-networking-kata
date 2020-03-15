@@ -29,4 +29,11 @@ class CommandFactoryTest {
         assertThat(unknownCommand.asOutMessage()).contains("dont-know-this-command");
     }
 
+    @Test
+    void identifiesPostMessageCommand() {
+        PostCommand postCommand = (PostCommand) commandFactory.newCommand("Alice -> I love the weather today");
+
+        assertThat(postCommand.asOutMessage()).isEqualTo("Alice -> I love the weather today");
+    }
+
 }
