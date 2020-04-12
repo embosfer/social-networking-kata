@@ -33,9 +33,8 @@ public class PostingStepDef {
     }
 
     @When("{string} posts the messages")
-    public void userPostsTheMessage(String user, List<String> messages) throws IOException, InterruptedException {
+    public void userPostsTheMessages(String user, List<String> messages) {
         messages.forEach(message -> command(user + " -> " + message));
-        command("quit"); // must quit so the java Process terminates. After that we can grab the output
     }
 
     private void command(String command) {
@@ -44,7 +43,9 @@ public class PostingStepDef {
     }
 
     @Then("These messages appear on the console")
-    public void theMessageAppearsOnTheConsole(List<String> messages) throws IOException, InterruptedException {
+    public void theseMessagesAppearOnTheConsole(List<String> messages) throws IOException {
+        command("quit"); // must quit so the java Process terminates. After that we can grab the output
+
         String outputLine;
         Collection<String> output = new ArrayList<>();
         while ((outputLine = screen.readLine()) != null) {
