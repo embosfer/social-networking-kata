@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,9 +32,9 @@ public class PostingStepDef {
         screen = new BufferedReader(new InputStreamReader(consoleProcess.getInputStream()));
     }
 
-    @When("{string} posts the message {string}")
-    public void userPostsTheMessage(String user, String message) throws IOException, InterruptedException {
-        command(user + " -> " + message);
+    @When("{string} posts the messages")
+    public void userPostsTheMessage(String user, List<String> messages) throws IOException, InterruptedException {
+        messages.forEach(message -> command(user + " -> " + message));
         command("quit"); // must quit so the java Process terminates. After that we can grab the output
     }
 
@@ -42,14 +43,20 @@ public class PostingStepDef {
         console.flush();
     }
 
-    @Then("The message {string} appears on the console")
-    public void theMessageAppearsOnTheConsole(String message) throws IOException, InterruptedException {
+    @Then("These messages appear on the console")
+    public void theMessageAppearsOnTheConsole(List<String> messages) throws IOException, InterruptedException {
         String outputLine;
         Collection<String> output = new ArrayList<>();
         while ((outputLine = screen.readLine()) != null) {
             output.add(outputLine);
         }
-        assertThat(output).containsExactly(message, EXIT_MESSAGE);
+        assertThat(output).isEqualTo(expected(messages));
+    }
+
+    private ArrayList<String> expected(List<String> messages) {
+        ArrayList<String> expected = new ArrayList<>(messages);
+        expected.add("Bye!");
+        return expected;
     }
 
 }
