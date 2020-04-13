@@ -3,11 +3,15 @@ Feature: Posting feature
   Scenario: Check that messages posted by users display on the twitter console
     Given A Twitter console
     When "Alice" posts the messages
-    |LOL|
-    |This coronavirus is crazy!|
+      | Yesterday 24 degrees... |
+      | Today, 8!               |
     And "Bob" posts the messages
-      |Loving this weather|
+      | Loving this weather |
+    And "Bob" reads "Alice" timeline
     Then These messages appear on the console
-    |Alice -> LOL|
-    |Alice -> This coronavirus is crazy!|
-    |Bob -> Loving this weather         |
+      | Alice -> Yesterday 24 degrees... |
+      | Alice -> Today, 8!               |
+      | Bob -> Loving this weather       |
+      | Alice                            |
+      | Today, 8!                        |
+      | Yesterday 24 degrees...          |

@@ -37,6 +37,11 @@ public class PostingStepDef {
         messages.forEach(message -> command(user + " -> " + message));
     }
 
+    @When("{string} reads {string} timeline")
+    public void readsTimeline(String readingUser, String timelineUser) {
+        command(timelineUser);
+    }
+
     private void command(String command) {
         console.write(command + "\n");
         console.flush();
@@ -54,8 +59,8 @@ public class PostingStepDef {
         assertThat(output).isEqualTo(expected(messages));
     }
 
-    private ArrayList<String> expected(List<String> messages) {
-        ArrayList<String> expected = new ArrayList<>(messages);
+    private List<String> expected(List<String> messages) {
+        List<String> expected = new ArrayList<>(messages);
         expected.add("Bye!");
         return expected;
     }

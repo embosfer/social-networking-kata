@@ -3,10 +3,10 @@ package com.embosfer.katas.twitter.domain;
 import java.util.Objects;
 
 public class Message {
-    private final String message;
+    public final String value;
 
-    private Message(String message) {
-        this.message = message;
+    private Message(String value) {
+        this.value = value;
     }
 
     public static Message of(String message) {
@@ -18,16 +18,16 @@ public class Message {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message1 = (Message) o;
-        return Objects.equals(message, message1.message);
+        return Objects.equals(value, message1.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(message);
+        return Objects.hash(value);
     }
 
     @Override
     public String toString() {
-        return message;
+        return value;
     }
 }
