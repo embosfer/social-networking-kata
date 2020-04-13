@@ -8,11 +8,10 @@ import static org.mockito.Mockito.*;
 class TwitterCommandInvokerTest {
 
     CommandFactory commandFactory = mock(CommandFactory.class);
-    MessageOutputter messageOutputter = mock(MessageOutputter.class);
     TwitterCommandInvoker commandInvoker = new TwitterCommandInvoker(commandFactory);
 
     @Test
-    void userInputGetsTransformedIntoACommandAndPrintedToConsole() {
+    void userInputGetsTransformedIntoACommandAndExecuted() {
 
         Command aCommand = mock(Command.class);
         when(commandFactory.newCommand("a-command-from-user")).thenReturn(aCommand);
