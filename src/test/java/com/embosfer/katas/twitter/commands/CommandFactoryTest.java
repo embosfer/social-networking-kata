@@ -1,39 +1,46 @@
 package com.embosfer.katas.twitter.commands;
 
+import com.embosfer.katas.twitter.out.MessageOutputter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 class CommandFactoryTest {
 
     CommandFactory commandFactory;
+    MessageOutputter messageOutputter = mock(MessageOutputter.class);
 
     @BeforeEach
     void setUp() {
-        commandFactory = new CommandFactory();
+        commandFactory = new CommandFactory(messageOutputter);
     }
 
     @Test
     void identifiesQuitCommand() {
-        Command quitCommand = commandFactory.newCommand("quit");
+        QuitCommand command = (QuitCommand) commandFactory.newCommand("quit");
 
-        assertThat(quitCommand).isInstanceOf(QuitCommand.class);
-        assertThat(quitCommand.asOutMessage()).isEqualTo("Bye!");
+        assertTrue(command.isQuitCommand());
+        assertThat(command).isInstanceOf(QuitCommand.class);
     }
 
     @Test
     void identifiesUnknownCommands() {
-        UnknownCommand unknownCommand = (UnknownCommand) commandFactory.newCommand("dont-know-this-command");
+        UnknownCommand command = (UnknownCommand) commandFactory.newCommand("dont-know-this-command");
 
-        assertThat(unknownCommand.asOutMessage()).contains("dont-know-this-command");
+        assertFalse(command.isQuitCommand());
+        assertThat(command).isInstanceOf(UnknownCommand.class);
     }
 
     @Test
     void identifiesPostMessageCommand() {
-        PostCommand postCommand = (PostCommand) commandFactory.newCommand("Alice -> I love the weather today");
+        PostCommand command = (PostCommand) commandFactory.newCommand("Alice -> I love the weather today");
 
-        assertThat(postCommand.asOutMessage()).isEqualTo("Alice -> I love the weather today");
+        assertFalse(command.isQuitCommand());
+        assertThat(command).isInstanceOf(PostCommand.class);
     }
 
 }

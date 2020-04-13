@@ -1,24 +1,24 @@
 package com.embosfer.katas.twitter;
 
 import com.embosfer.katas.twitter.commands.Command;
-import com.embosfer.katas.twitter.commands.TwitterCommandProcessor;
+import com.embosfer.katas.twitter.commands.TwitterCommandInvoker;
 import com.embosfer.katas.twitter.in.UserInput;
 
 public class TwitterConsole {
 
     private final UserInput userInput;
-    private final TwitterCommandProcessor twitterCommandProcessor;
+    private final TwitterCommandInvoker twitterCommandInvoker;
 
-    public TwitterConsole(UserInput userInput, TwitterCommandProcessor twitterCommandProcessor) {
+    public TwitterConsole(UserInput userInput, TwitterCommandInvoker twitterCommandInvoker) {
         this.userInput = userInput;
-        this.twitterCommandProcessor = twitterCommandProcessor;
+        this.twitterCommandInvoker = twitterCommandInvoker;
     }
 
     public void start() {
 
         Command command;
         do {
-            command = twitterCommandProcessor.process(userInput.nextInput());
+            command = twitterCommandInvoker.execute(userInput.nextInput());
         } while (!command.isQuitCommand());
     }
 

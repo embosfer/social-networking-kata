@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
-class TwitterCommandProcessorTest {
+class TwitterCommandInvokerTest {
 
     CommandFactory commandFactory = mock(CommandFactory.class);
     MessageOutputter messageOutputter = mock(MessageOutputter.class);
-    TwitterCommandProcessor commandProcessor = new TwitterCommandProcessor(commandFactory, messageOutputter);
+    TwitterCommandInvoker commandInvoker = new TwitterCommandInvoker(commandFactory);
 
     @Test
     void userInputGetsTransformedIntoACommandAndPrintedToConsole() {
@@ -17,9 +17,9 @@ class TwitterCommandProcessorTest {
         Command aCommand = mock(Command.class);
         when(commandFactory.newCommand("a-command-from-user")).thenReturn(aCommand);
 
-        commandProcessor.process("a-command-from-user");
+        commandInvoker.execute("a-command-from-user");
 
-        verify(messageOutputter).printOut(aCommand.asOutMessage());
+        verify(aCommand).execute();
     }
 
 }

@@ -1,10 +1,18 @@
 package com.embosfer.katas.twitter.commands;
 
+import com.embosfer.katas.twitter.out.MessageOutputter;
+
 public class QuitCommand implements Command {
 
+    private final MessageOutputter messageOutputter;
+
+    public QuitCommand(MessageOutputter messageOutputter) {
+        this.messageOutputter = messageOutputter;
+    }
+
     @Override
-    public String asOutMessage() {
-        return "Bye!";
+    public void execute() {
+        messageOutputter.printOut("Bye!");
     }
 
 }
