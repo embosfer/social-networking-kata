@@ -42,6 +42,11 @@ public class PostingStepDef {
         command(timelineUser);
     }
 
+    @When("{string} follows {string}")
+    public void userFollows(String user, String userToFollow) {
+        command(user + " follows " + userToFollow);
+    }
+
     private void command(String command) {
         console.write(command + "\n");
         console.flush();

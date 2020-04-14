@@ -6,8 +6,13 @@ import com.embosfer.katas.twitter.domain.User;
 import com.embosfer.katas.twitter.out.MessageOutputter;
 
 import java.time.Clock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommandFactory {
+
+    private static final Pattern POST_MESSAGE_PATTERN = Pattern.compile("(?<user>\\w+) -> (?<message>.*+)");
+    private static final Pattern FOLLOW_USER_PATTERN = Pattern.compile("(?<user>\\w+) follows (?<followedUser>\\w+)");
 
     private final MessageOutputter messageOutputter;
     private final UserPostsCache userPostsCache;
@@ -23,13 +28,21 @@ public class CommandFactory {
 
         if (userWantsToQuit(userInput)) {
             return new QuitCommand(messageOutputter);
-        } else if (userWantsToPostMessage(userInput)) {
-            PostCommand postCommand = createPostCommandFrom(userInput);
-            userPostsCache.add(postCommand.message());
-            return postCommand;
+        } else if (POST_MESSAGE_PATTERN.asMatchPredicate().test(userInput)) {
+            Matcher matcher = POST_MESSAGE_PATTERN.matcher(userInput);
+            if (matcher.find()) {
+                PostCommand postCommand = new PostCommand(Message.of(matcher.group("message"), User.of(matcher.group("user")), clock.instant()), messageOutputter);
+                userPostsCache.add(postCommand.message());
+                return postCommand;
+            }
         } else if (userWantsToReadOtherUsersTimeline(userInput)) {
             User user = User.of(userInput);
             return new ReadUserTimelineCommand(user, userPostsCache.getTimelineFor(user), clock.instant(), messageOutputter);
+        } else if (FOLLOW_USER_PATTERN.asMatchPredicate().test(userInput)) {
+            Matcher matcher = FOLLOW_USER_PATTERN.matcher(userInput);
+            if (matcher.find()) {
+                return new FollowUserTimelineCommand(User.of(matcher.group("user")), User.of(matcher.group("followedUser")), messageOutputter);
+            }
         }
 
         return new UnknownCommand(userInput, messageOutputter);
@@ -38,15 +51,6 @@ public class CommandFactory {
     private boolean userWantsToReadOtherUsersTimeline(String userInput) {
         String[] chunks = userInput.split(" ");
         return chunks.length == 1;
-    }
-
-    private PostCommand createPostCommandFrom(String userInput) {
-        String[] chunks = userInput.split(" -> ");
-        return new PostCommand(Message.of(chunks[1], User.of(chunks[0]), clock.instant()), messageOutputter);
-    }
-
-    private boolean userWantsToPostMessage(String userInput) {
-        return userInput.contains(" -> ");
     }
 
     private boolean userWantsToQuit(String userInput) {
