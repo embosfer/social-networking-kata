@@ -18,7 +18,7 @@ class CommandFactoryTest {
 
     @BeforeEach
     void setUp() {
-        commandFactory = new CommandFactory(messageOutputter, userPostsCache);
+        commandFactory = new CommandFactory(messageOutputter, userPostsCache, null);
     }
 
     @Test

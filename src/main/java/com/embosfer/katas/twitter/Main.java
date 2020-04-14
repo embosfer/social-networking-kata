@@ -6,6 +6,8 @@ import com.embosfer.katas.twitter.domain.UserPostsCache;
 import com.embosfer.katas.twitter.in.StdInUserInput;
 import com.embosfer.katas.twitter.out.StdOutMessageOutputter;
 
+import java.time.Clock;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -13,7 +15,7 @@ public class Main {
         TwitterConsole twitterConsole = new TwitterConsole(
                 new StdInUserInput(),
                 new TwitterCommandInvoker(
-                        new CommandFactory(new StdOutMessageOutputter(), new UserPostsCache())));
+                        new CommandFactory(new StdOutMessageOutputter(), new UserPostsCache(), Clock.systemUTC())));
 
         twitterConsole.start();
     }

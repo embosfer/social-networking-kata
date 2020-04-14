@@ -5,14 +5,18 @@ import com.embosfer.katas.twitter.domain.User;
 import com.embosfer.katas.twitter.domain.UserPostsCache;
 import com.embosfer.katas.twitter.out.MessageOutputter;
 
+import java.time.Clock;
+
 public class CommandFactory {
 
     private final MessageOutputter messageOutputter;
     private final UserPostsCache userPostsCache;
+    private final Clock clock;
 
-    public CommandFactory(MessageOutputter messageOutputter, UserPostsCache userPostsCache) {
+    public CommandFactory(MessageOutputter messageOutputter, UserPostsCache userPostsCache, Clock clock) {
         this.messageOutputter = messageOutputter;
         this.userPostsCache = userPostsCache;
+        this.clock = clock;
     }
 
     public Command newCommand(String userInput) {
@@ -20,11 +24,12 @@ public class CommandFactory {
         if (userWantsToQuit(userInput)) {
             return new QuitCommand(messageOutputter);
         } else if (userWantsToPostMessage(userInput)) {
-            userPostsCache.add(createPostCommandFrom(userInput));
-            return createPostCommandFrom(userInput);
+            PostCommand postCommand = createPostCommandFrom(userInput);
+            userPostsCache.add(postCommand);
+            return postCommand;
         } else if (userWantsToReadOtherUsersTimeline(userInput)) {
             User user = User.of(userInput);
-            return new ReadUserTimelineCommand(user, userPostsCache.getTimelineFor(user), messageOutputter);
+            return new ReadUserTimelineCommand(user, userPostsCache.getTimelineFor(user), clock.instant(), messageOutputter);
         }
 
         return new UnknownCommand(userInput, messageOutputter);
@@ -37,7 +42,7 @@ public class CommandFactory {
 
     private PostCommand createPostCommandFrom(String userInput) {
         String[] chunks = userInput.split(" -> ");
-        return new PostCommand(User.of(chunks[0]), Message.of(chunks[1]), messageOutputter);
+        return new PostCommand(User.of(chunks[0]), Message.of(chunks[1], clock.instant()), messageOutputter);
     }
 
     private boolean userWantsToPostMessage(String userInput) {

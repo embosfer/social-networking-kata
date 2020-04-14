@@ -1,16 +1,19 @@
 package com.embosfer.katas.twitter.domain;
 
+import java.time.Instant;
 import java.util.Objects;
 
 public class Message {
     public final String value;
+    public final Instant instant;
 
-    private Message(String value) {
+    private Message(String value, Instant instant) {
         this.value = value;
+        this.instant = instant;
     }
 
-    public static Message of(String message) {
-        return new Message(message);
+    public static Message of(String message, Instant instant) {
+        return new Message(message, instant);
     }
 
     @Override
@@ -30,4 +33,5 @@ public class Message {
     public String toString() {
         return value;
     }
+
 }

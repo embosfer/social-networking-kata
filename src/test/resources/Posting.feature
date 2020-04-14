@@ -9,9 +9,9 @@ Feature: Posting feature
       | Loving this weather |
     And "Bob" reads "Alice" timeline
     Then These messages appear on the console
-      | Alice -> Yesterday 24 degrees... |
-      | Alice -> Today, 8!               |
-      | Bob -> Loving this weather       |
-      | Alice                            |
-      | Today, 8!                        |
-      | Yesterday 24 degrees...          |
+      | Alice -> Yesterday 24 degrees...        |
+      | Alice -> Today, 8!                      |
+      | Bob -> Loving this weather              |
+      | Alice                                   |
+      | Today, 8! (0 seconds ago)               |
+      | Yesterday 24 degrees... (0 seconds ago) |
