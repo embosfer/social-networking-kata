@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-public class ReadUserTimelineCommand implements UserCommand {
+public class ReadUserTimelineCommand implements Command {
 
     private final User user;
     private final List<Message> posts;
@@ -20,11 +20,6 @@ public class ReadUserTimelineCommand implements UserCommand {
         this.posts = posts;
         this.now = now;
         this.messageOutputter = messageOutputter;
-    }
-
-    @Override
-    public User user() {
-        return user;
     }
 
     @Override

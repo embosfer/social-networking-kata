@@ -1,6 +1,6 @@
 package com.embosfer.katas.twitter.commands;
 
-import com.embosfer.katas.twitter.domain.UserPostsCache;
+import com.embosfer.katas.twitter.cache.UserPostsCache;
 import com.embosfer.katas.twitter.out.MessageOutputter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

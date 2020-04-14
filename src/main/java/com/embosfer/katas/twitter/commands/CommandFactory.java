@@ -1,8 +1,8 @@
 package com.embosfer.katas.twitter.commands;
 
+import com.embosfer.katas.twitter.cache.UserPostsCache;
 import com.embosfer.katas.twitter.domain.Message;
 import com.embosfer.katas.twitter.domain.User;
-import com.embosfer.katas.twitter.domain.UserPostsCache;
 import com.embosfer.katas.twitter.out.MessageOutputter;
 
 import java.time.Clock;
@@ -25,7 +25,7 @@ public class CommandFactory {
             return new QuitCommand(messageOutputter);
         } else if (userWantsToPostMessage(userInput)) {
             PostCommand postCommand = createPostCommandFrom(userInput);
-            userPostsCache.add(postCommand);
+            userPostsCache.add(postCommand.message());
             return postCommand;
         } else if (userWantsToReadOtherUsersTimeline(userInput)) {
             User user = User.of(userInput);
@@ -42,7 +42,7 @@ public class CommandFactory {
 
     private PostCommand createPostCommandFrom(String userInput) {
         String[] chunks = userInput.split(" -> ");
-        return new PostCommand(User.of(chunks[0]), Message.of(chunks[1], clock.instant()), messageOutputter);
+        return new PostCommand(Message.of(chunks[1], User.of(chunks[0]), clock.instant()), messageOutputter);
     }
 
     private boolean userWantsToPostMessage(String userInput) {

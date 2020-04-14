@@ -19,16 +19,17 @@ class ReadUserTimelineCommandTest {
     @Test
     void canPrintUserTimeline() {
         Instant now = Instant.EPOCH;
+        User user = User.of("Alice");
         List<Message> alicesMessages = List.of(
-                Message.of("1st message", now.minus(999, MILLIS)),
-                Message.of("2nd message", now.minus(59, SECONDS)),
-                Message.of("3rd message", Instant.EPOCH.minus(1, MINUTES)),
-                Message.of("4th message", Instant.EPOCH.minus(61, SECONDS)),
-                Message.of("5th message", Instant.EPOCH.minus(59, MINUTES)),
-                Message.of("6th message", Instant.EPOCH.minus(1, HOURS)),
-                Message.of("7th message", Instant.EPOCH.minus(23, HOURS)),
-                Message.of("8th message", Instant.EPOCH.minus(24, HOURS)));
-        ReadUserTimelineCommand command = new ReadUserTimelineCommand(User.of("Alice"), alicesMessages, now, messageOutputter);
+                Message.of("1st message", user, now.minus(999, MILLIS)),
+                Message.of("2nd message", user, now.minus(59, SECONDS)),
+                Message.of("3rd message", user, Instant.EPOCH.minus(1, MINUTES)),
+                Message.of("4th message", user, Instant.EPOCH.minus(61, SECONDS)),
+                Message.of("5th message", user, Instant.EPOCH.minus(59, MINUTES)),
+                Message.of("6th message", user, Instant.EPOCH.minus(1, HOURS)),
+                Message.of("7th message", user, Instant.EPOCH.minus(23, HOURS)),
+                Message.of("8th message", user, Instant.EPOCH.minus(24, HOURS)));
+        ReadUserTimelineCommand command = new ReadUserTimelineCommand(user, alicesMessages, now, messageOutputter);
 
         command.execute();
 
