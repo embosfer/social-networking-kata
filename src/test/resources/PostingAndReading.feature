@@ -1,6 +1,6 @@
 Feature: Posting feature
 
-  Scenario: Check that messages posted by users display on the twitter console
+  Scenario: Alice can publish messages to a personal timeline. Bob can view Alice’s timeline.
     Given A Twitter console
     When "Alice" posts the messages
       | Yesterday 24 degrees... |
@@ -8,6 +8,7 @@ Feature: Posting feature
     And "Bob" posts the messages
       | Loving this weather |
     And "Bob" reads "Alice" timeline
+    And "Bob" reads "Bob" timeline
     Then These messages appear on the console
       | Alice -> Yesterday 24 degrees...        |
       | Alice -> Today, 8!                      |
@@ -15,3 +16,5 @@ Feature: Posting feature
       | Alice                                   |
       | Today, 8! (0 seconds ago)               |
       | Yesterday 24 degrees... (0 seconds ago) |
+      | Bob                                     |
+      | Loving this weather (0 seconds ago)     |
