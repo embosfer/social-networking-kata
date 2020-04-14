@@ -4,7 +4,6 @@ import com.embosfer.katas.twitter.domain.Message;
 import com.embosfer.katas.twitter.domain.User;
 import com.embosfer.katas.twitter.out.MessageOutputter;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -25,24 +24,7 @@ public class ReadUserTimelineCommand implements Command {
     @Override
     public void execute() {
         messageOutputter.printOut(user.name);
-        posts.forEach(post -> messageOutputter.printOut(withTime(post)));
+        posts.forEach(post -> messageOutputter.printOut(post.formatWithTimeElapsed(now)));
     }
 
-    private String withTime(Message post) {
-        return String.format("%s (%s ago)", post.value, durationSincePost(post));
-    }
-
-    private String durationSincePost(Message post) {
-        Duration duration = Duration.between(post.instant, now);
-        if (duration.toDays() > 0) {
-            return duration.toDays() + " days";
-        }
-        if (duration.toHours() > 0) {
-            return duration.toHours() + " hours";
-        }
-        if (duration.toMinutes() > 0) {
-            return duration.toMinutes() + " minutes";
-        }
-        return duration.toSeconds() + " seconds";
-    }
 }

@@ -15,17 +15,17 @@ public class ShowUserWallCommand implements Command {
     private final User user;
     private final UserPostsCache userPostsCache;
     private final UserSubscriptionsCache userSubscriptionsCache;
-    private final Instant instant;
+    private final Instant now;
     private final MessageOutputter messageOutputter;
 
     public ShowUserWallCommand(User user,
                                UserPostsCache userPostsCache, UserSubscriptionsCache userSubscriptionsCache,
-                               Instant instant,
+                               Instant now,
                                MessageOutputter messageOutputter) {
         this.user = user;
         this.userPostsCache = userPostsCache;
         this.userSubscriptionsCache = userSubscriptionsCache;
-        this.instant = instant;
+        this.now = now;
         this.messageOutputter = messageOutputter;
     }
 
@@ -38,6 +38,6 @@ public class ShowUserWallCommand implements Command {
                 .map(userPostsCache::getTimelineFor)
                 .flatMap(Collection::stream)
                 .sorted(comparing(message -> message.instant, reverseOrder()))
-                .forEach(message -> messageOutputter.printOut(message.user.name + " - " + message.value));
+                .forEach(message -> messageOutputter.printOut(message.user.name + " - " + message.formatWithTimeElapsed(now)));
     }
 }

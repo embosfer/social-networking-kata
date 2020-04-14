@@ -13,14 +13,14 @@ Feature: Following feature
     And "Charlie" follows "Bob"
     And "Charlie" shows wall
     Then These messages appear on the console
-      | Alice -> Yesterday 24 degrees...                                 |
-      | Alice -> Today, 8!                                               |
-      | Bob -> Loving this weather                                       |
-      | Charlie -> I'm in New York today! Anyone wants to have a coffee? |
-      | Charlie follows Alice                                            |
-      | Charlie follows Bob                                              |
-      | Charlie wall                                                     |
-      | Charlie - I'm in New York today! Anyone wants to have a coffee?  |
-      | Bob - Loving this weather                                        |
-      | Alice - Today, 8!                                                |
-      | Alice - Yesterday 24 degrees...                                  |
+      | Alice -> Yesterday 24 degrees...                                                |
+      | Alice -> Today, 8!                                                              |
+      | Bob -> Loving this weather                                                      |
+      | Charlie -> I'm in New York today! Anyone wants to have a coffee?                |
+      | Charlie follows Alice                                                           |
+      | Charlie follows Bob                                                             |
+      | Charlie wall                                                                    |
+      | Charlie - I'm in New York today! Anyone wants to have a coffee? (0 seconds ago) |
+      | Bob - Loving this weather (0 seconds ago)                                       |
+      | Alice - Today, 8! (0 seconds ago)                                               |
+      | Alice - Yesterday 24 degrees... (0 seconds ago)                                 |
