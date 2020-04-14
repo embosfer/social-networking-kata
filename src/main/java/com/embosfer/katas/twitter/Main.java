@@ -1,6 +1,7 @@
 package com.embosfer.katas.twitter;
 
 import com.embosfer.katas.twitter.cache.UserPostsCache;
+import com.embosfer.katas.twitter.cache.UserSubscriptionsCache;
 import com.embosfer.katas.twitter.commands.CommandFactory;
 import com.embosfer.katas.twitter.commands.TwitterCommandInvoker;
 import com.embosfer.katas.twitter.in.StdInUserInput;
@@ -15,7 +16,10 @@ public class Main {
         TwitterConsole twitterConsole = new TwitterConsole(
                 new StdInUserInput(),
                 new TwitterCommandInvoker(
-                        new CommandFactory(new StdOutMessageOutputter(), new UserPostsCache(), Clock.systemUTC())));
+                        new CommandFactory(
+                                new StdOutMessageOutputter(),
+                                new UserPostsCache(), new UserSubscriptionsCache(),
+                                Clock.systemUTC())));
 
         twitterConsole.start();
     }
