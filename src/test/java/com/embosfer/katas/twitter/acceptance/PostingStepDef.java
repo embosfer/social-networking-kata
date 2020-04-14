@@ -47,6 +47,11 @@ public class PostingStepDef {
         command(user + " follows " + userToFollow);
     }
 
+    @When("{string} shows wall")
+    public void showsWall(String user) {
+        command(user + " wall");
+    }
+
     private void command(String command) {
         console.write(command + "\n");
         console.flush();

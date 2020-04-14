@@ -15,6 +15,7 @@ public class CommandFactory {
     private static final Pattern POST_MESSAGE_PATTERN = Pattern.compile("(?<user>\\w+) -> (?<message>.*+)");
     private static final Pattern READ_TIMELINE_PATTERN = Pattern.compile("(?<user>\\w+)");
     private static final Pattern FOLLOW_USER_PATTERN = Pattern.compile("(?<user>\\w+) follows (?<followedUser>\\w+)");
+    private static final Pattern SHOW_USER_WALL_PATTERN = Pattern.compile("(?<user>\\w+) wall");
 
     private final MessageOutputter messageOutputter;
     private final UserPostsCache userPostsCache;
@@ -55,6 +56,14 @@ public class CommandFactory {
                 User followedUser = User.of(matcher.group("followedUser"));
                 userSubscriptionsCache.add(user, followedUser);
                 return new FollowUserTimelineCommand(user, followedUser, messageOutputter);
+            }
+        }
+
+        if (SHOW_USER_WALL_PATTERN.asMatchPredicate().test(userInput)) {
+            Matcher matcher = SHOW_USER_WALL_PATTERN.matcher(userInput);
+            if (matcher.find()) {
+                User user = User.of(matcher.group("user"));
+                return new ShowUserWallCommand(user, messageOutputter);
             }
         }
 

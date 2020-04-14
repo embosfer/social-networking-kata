@@ -11,6 +11,7 @@ Feature: Following feature
       | I'm in New York today! Anyone wants to have a coffee? |
     And "Charlie" follows "Alice"
     And "Charlie" follows "Bob"
+    And "Charlie" shows wall
     Then These messages appear on the console
       | Alice -> Yesterday 24 degrees...                                 |
       | Alice -> Today, 8!                                               |
@@ -18,3 +19,4 @@ Feature: Following feature
       | Charlie -> I'm in New York today! Anyone wants to have a coffee? |
       | Charlie follows Alice                                            |
       | Charlie follows Bob                                              |
+      | Charlie wall                                                     |
