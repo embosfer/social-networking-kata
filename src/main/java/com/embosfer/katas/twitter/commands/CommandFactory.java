@@ -63,7 +63,7 @@ public class CommandFactory {
             Matcher matcher = SHOW_USER_WALL_PATTERN.matcher(userInput);
             if (matcher.find()) {
                 User user = User.of(matcher.group("user"));
-                return new ShowUserWallCommand(user, messageOutputter);
+                return new ShowUserWallCommand(user, userPostsCache, userSubscriptionsCache, clock.instant(), messageOutputter);
             }
         }
 

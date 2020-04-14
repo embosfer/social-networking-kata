@@ -20,3 +20,7 @@ Feature: Following feature
       | Charlie follows Alice                                            |
       | Charlie follows Bob                                              |
       | Charlie wall                                                     |
+      | Charlie - I'm in New York today! Anyone wants to have a coffee?  |
+      | Bob - Loving this weather                                        |
+      | Alice - Today, 8!                                                |
+      | Alice - Yesterday 24 degrees...                                  |
